@@ -1,10 +1,27 @@
-import React from "react";
-import "./App.css";
+import { useState } from "react";
+import Prompt from "./components/Prompt/Prompt";
+import Responses from "./components/Responses/Responses";
+
+interface IArray {
+  prompt: string;
+  response: string | undefined;
+}
 
 function App() {
+  const [prompt, setPrompt] = useState<string>("");
+  const [response, setResponse] = useState<string>("");
+  const [responsesArray, setResponsesArray] = useState<IArray[]>([]);
   return (
-    <div className="App">
-      <h1 className="text-3xl font-bold underline">Fun with AI</h1>
+    <div>
+      <div className="flex flex-col">
+        <Prompt
+          prompt={prompt}
+          setPrompt={setPrompt}
+          setResponse={setResponse}
+          setResponsesArray={setResponsesArray}
+        />
+        <Responses response={response} prompt={prompt} />
+      </div>
     </div>
   );
 }
