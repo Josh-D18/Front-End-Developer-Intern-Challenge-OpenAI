@@ -7,9 +7,8 @@ interface IArray {
   response: string | undefined;
 }
 
-function App() {
+const App: React.FC = () => {
   const [prompt, setPrompt] = useState<string>("");
-  const [response, setResponse] = useState<string>("");
   const [responsesArray, setResponsesArray] = useState<IArray[]>([]);
   return (
     <div>
@@ -17,13 +16,13 @@ function App() {
         <Prompt
           prompt={prompt}
           setPrompt={setPrompt}
-          setResponse={setResponse}
           setResponsesArray={setResponsesArray}
+          responsesArray={responsesArray}
         />
-        <Responses response={response} prompt={prompt} />
+        <Responses />
       </div>
     </div>
   );
-}
+};
 
 export default App;

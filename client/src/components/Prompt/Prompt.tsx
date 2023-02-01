@@ -3,7 +3,6 @@ import { promptApi } from "../../utils/promptApi";
 interface IProps {
   prompt: string;
   setPrompt: React.Dispatch<React.SetStateAction<string>>;
-  setResponse: React.Dispatch<React.SetStateAction<string>>;
   setResponsesArray: React.Dispatch<
     React.SetStateAction<
       {
@@ -12,10 +11,14 @@ interface IProps {
       }[]
     >
   >;
+  responsesArray: {
+    prompt: string;
+    response: string | undefined;
+  }[];
 }
 
 const Prompt: React.FC<IProps> = (props: IProps) => {
-  const { prompt, setPrompt, setResponsesArray } = props;
+  const { prompt, setPrompt, setResponsesArray, responsesArray } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value);
@@ -31,6 +34,7 @@ const Prompt: React.FC<IProps> = (props: IProps) => {
         response: result,
       },
     ]);
+    sessionStorage.setItem("responses", JSON.stringify(responsesArray));
   };
 
   return (
@@ -48,8 +52,9 @@ const Prompt: React.FC<IProps> = (props: IProps) => {
             <textarea
               value={prompt}
               onChange={handleChange}
-              className="border-solid border-grey border-[2px] w-[600px] h-[200px] block p-2"
-            ></textarea>
+              className="border-solid border-grey border-[2px] w-[320px] md:w-[420px] lg:w-[600px] h-[200px] block p-2"
+              required
+            />
             <input
               type={"submit"}
               value="submit"
