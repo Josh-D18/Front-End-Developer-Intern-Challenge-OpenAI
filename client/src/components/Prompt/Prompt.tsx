@@ -27,6 +27,7 @@ const Prompt: React.FC<IProps> = (props: IProps) => {
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result: string | undefined = await promptApi(prompt);
+    
     setResponsesArray((prev) => [
       ...prev,
       {
@@ -34,7 +35,9 @@ const Prompt: React.FC<IProps> = (props: IProps) => {
         response: result,
       },
     ]);
-    sessionStorage.setItem("responses", JSON.stringify(responsesArray));
+    console.log(result,responsesArray);
+    const responsesStringify = JSON.stringify(responsesArray);
+    localStorage.setItem("responses", responsesStringify);
   };
 
   return (

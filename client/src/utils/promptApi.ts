@@ -1,16 +1,17 @@
-import { Configuration, OpenAIApi } from "openai";
+import axios from "axios";
 
 export const promptApi = async (prompt: string) => {
   const APIKEY = process.env.REACT_APP_SECRET_KEY;
   let result: string | undefined;
 
-  const configuration = new Configuration({
-    apiKey: APIKEY,
+  const client = axios.create({
+    headers: {
+      Authorization: "Bearer " + APIKEY,
+    },
   });
+  
 
-  const openai = new OpenAIApi(configuration);
-
-  const response = await openai.createCompletion({
+  const params = {
     model: "text-davinci-003",
     prompt: prompt,
     temperature: 0,
@@ -18,9 +19,16 @@ export const promptApi = async (prompt: string) => {
     top_p: 1,
     frequency_penalty: 0.0,
     presence_penalty: 0.0,
-  });
+  };
 
-  result = response.data.choices[0].text;
+  try {
+    const response = await client
+  .post("https://api.openai.com/v1/completions", params);
+    result = response.data.choices[0].text;
+  } catch (error) {
+    console.log(error);
+  }
 
   return result;
 };
+
