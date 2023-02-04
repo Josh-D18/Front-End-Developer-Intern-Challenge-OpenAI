@@ -21,13 +21,13 @@ const Responses: React.FC<IProps> = (props: IProps) => {
                 <div className="w-full h-full mb-5 bg-slate-100" key={id}>
                   <div className="flex pb-2 pt-[20px] flex-col lg:flex-row">
                     <p className="pl-5 pr-[55px] font-bold">Prompt:</p>
-                    <p className="font-[400] leading-[21px] text-left pb-[20px] pr-[20px] pl-[20px] pt-[3px] lg:pl-[0px] lg:pt-[0px]">
+                    <p className="font-[400] leading-[1.5rem] text-left pb-[20px] pr-[20px] pl-[20px] pt-[3px] lg:pl-[0px] lg:pt-[0px] ">
                       {results.prompt}
                     </p>
                   </div>
                   <div className="flex flex-col lg:flex-row">
                     <p className="pl-5 pr-[40px] font-bold">Response:</p>
-                    <p className="font-[400] leading-[21px] text-left pb-[20px] pr-[20px] pl-[20px] pt-[3px] lg:pl-[0px] lg:pt-[0px]">
+                    <p className="font-[400] leading-[1.5rem] text-left pb-[20px] pr-[20px] pl-[20px] pt-[3px] lg:pl-[0px] lg:pt-[0px]">
                       {results.response}
                     </p>
                   </div>

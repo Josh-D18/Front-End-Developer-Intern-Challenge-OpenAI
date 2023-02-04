@@ -10,6 +10,12 @@ const App: React.FC = () => {
   );
   return (
     <div>
+      <a
+        href="#main"
+        className="left-[50%] absolute text-transparent top-[-100%]"
+      >
+        Skip to main content
+      </a>
       <div className="flex flex-col">
         <Prompt
           prompt={prompt}
