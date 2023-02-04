@@ -9,7 +9,6 @@ export const promptApi = async (prompt: string) => {
       Authorization: "Bearer " + APIKEY,
     },
   });
-  
 
   const params = {
     model: "text-davinci-003",
@@ -22,13 +21,13 @@ export const promptApi = async (prompt: string) => {
   };
 
   try {
-    const response = await client
-  .post("https://api.openai.com/v1/completions", params);
+    const response = await client.post(
+      "https://api.openai.com/v1/completions",
+      params
+    );
     result = response.data.choices[0].text;
+    return result;
   } catch (error) {
     console.log(error);
   }
-
-  return result;
 };
-

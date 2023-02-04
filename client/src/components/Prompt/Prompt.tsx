@@ -1,50 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { promptApi } from "../../utils/promptApi";
 interface IProps {
   prompt: string;
   setPrompt: React.Dispatch<React.SetStateAction<string>>;
-  setResponsesArray: React.Dispatch<
-    React.SetStateAction<
-      {
-        prompt: string;
-        response: string | undefined;
-      }[]
-    >
-  >;
-  responsesArray: {
-    prompt: string;
-    response: string | undefined;
-  }[];
+  setResponsesArray: React.Dispatch<React.SetStateAction<IArray[]>>;
+  responsesArray: IArray[];
+}
+
+export interface IArray {
+  prompt: string;
+  response: string | undefined;
 }
 
 const Prompt: React.FC<IProps> = (props: IProps) => {
-  const { prompt, setPrompt, setResponsesArray, responsesArray } = props;
+  const { prompt, setPrompt, responsesArray, setResponsesArray } = props;
 
+  const [hasSubmit, setHasSubmit] = useState(false);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value);
   };
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result: string | undefined = await promptApi(prompt);
-    
-    setResponsesArray((prev) => [
-      ...prev,
-      {
-        prompt: prompt,
-        response: result,
-      },
-    ]);
-    console.log(result,responsesArray);
-    const responsesStringify = JSON.stringify(responsesArray);
-    localStorage.setItem("responses", responsesStringify);
-  };
 
+    setResponsesArray((prev) => {
+      if (prev === null) {
+        return [
+          {
+            prompt: prompt,
+            response: result,
+          },
+        ];
+      }
+      return [
+        ...prev,
+        {
+          prompt: prompt,
+          response: result,
+        },
+      ];
+    });
+    setHasSubmit(true);
+  };
+  useEffect(() => {
+    const responsesStringify = JSON.stringify(responsesArray);
+    if (hasSubmit) {
+      localStorage.setItem("responses", responsesStringify);
+      setHasSubmit(false);
+    }
+  }, [responsesArray, hasSubmit]);
   return (
     <div>
       <div>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={async (e) => await handleSubmit(e)}
           className="flex items-center justify-center flex-col my-[25px]"
         >
           <label className="flex flex-col">
@@ -61,7 +71,7 @@ const Prompt: React.FC<IProps> = (props: IProps) => {
             <input
               type={"submit"}
               value="submit"
-              className="bg-sky-800 text-white py-[10px] px-[25px] rounded-[5%] mt-[5px] w-[100px] self-end"
+              className="bg-sky-800 text-white py-[10px] px-[25px] rounded-[5%] mt-[5px] w-[100px] self-end cursor-pointer hover:bg-blue-400"
             />
           </label>
         </form>

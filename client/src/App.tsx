@@ -1,25 +1,23 @@
 import { useState } from "react";
 import Prompt from "./components/Prompt/Prompt";
 import Responses from "./components/Responses/Responses";
-
-interface IArray {
-  prompt: string;
-  response: string | undefined;
-}
+import { IArray } from "./components/Prompt/Prompt";
 
 const App: React.FC = () => {
   const [prompt, setPrompt] = useState<string>("");
-  const [responsesArray, setResponsesArray] = useState<IArray[]>([]);
+  const [responsesArray, setResponsesArray] = useState<IArray[]>(
+    JSON.parse(localStorage.getItem("responses")!)
+  );
   return (
     <div>
       <div className="flex flex-col">
         <Prompt
           prompt={prompt}
           setPrompt={setPrompt}
-          setResponsesArray={setResponsesArray}
           responsesArray={responsesArray}
+          setResponsesArray={setResponsesArray}
         />
-        <Responses />
+        <Responses responsesArray={responsesArray} />
       </div>
     </div>
   );
